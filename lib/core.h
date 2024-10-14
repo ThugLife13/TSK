@@ -1,13 +1,18 @@
-//
-// Created by mateu on 11.09.2024.
-//
-
 #ifndef CORE_H
 #define CORE_H
 
+#include "dopplerRadar.h"
 
 
 class core {
+private:
+
+public:
+    core();
+
+    ~core();
+
+    void windowStart();
 
 };
 

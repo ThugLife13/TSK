@@ -3,3 +3,12 @@
 //
 
 #include "../lib/core.h"
+
+core::core() {
+}
+
+core::~core() {
+}
+
+void core::windowStart() {
+}
