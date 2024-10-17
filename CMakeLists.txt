@@ -3,6 +3,8 @@ project(TSK)
 
 set(CMAKE_CXX_STANDARD 26)
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
+
 add_executable(TSK
         src/main.cpp
         src/core.cpp
@@ -10,7 +12,13 @@ add_executable(TSK
         src/vehicle.cpp
         lib/vehicle.h
         src/dopplerRadar.cpp
-        lib/dopplerRadar.h)
+        lib/dopplerRadar.h
+        src/mainFrame.cpp
+        lib/mainFrame.h
+        lib/mainFrame.h)
 
 find_package(wxWidgets CONFIG REQUIRED)
+
 target_link_libraries(TSK PRIVATE wx::core wx::base)
+
+set_target_properties(TSK PROPERTIES LINK_FLAGS "/ENTRY:WinMainCRTStartup")

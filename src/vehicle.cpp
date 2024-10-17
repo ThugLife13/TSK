@@ -4,17 +4,8 @@
 
 #include "../lib/vehicle.h"
 
-inline vehicle::vehicle(int speed, int positionX, int positionY) {
+vehicle::vehicle() {
 }
 
-inline int vehicle::get_speed() {
-}
-
-int vehicle::get_positionX() {
-}
-
-int vehicle::get_positionY() {
-}
-
-inline vehicle::~vehicle() {
+vehicle::~vehicle() {
 }

@@ -2,18 +2,15 @@
 #define CORE_H
 
 #include "dopplerRadar.h"
+#include "mainFrame.h"
 
-
-class core {
-private:
-
+class core : public wxApp {
 public:
+    bool OnInit();
+
     core();
 
     ~core();
-
-    void windowStart();
-
 };
 
 
