@@ -9,11 +9,13 @@ public:
     mainFrame(const wxString &title);
     ~mainFrame();
 private:
-    void startButtonHandler(wxCommandEvent& evn);
-    void newWindowCheckBoxHandler(wxCommandEvent& env);
-    void radarPosXSliderHandler(wxCommandEvent& env);
-    void radarPosYSliderHandler(wxCommandEvent& env);
-    void carSpeedControllerHandler(wxCommandEvent& env);
+    void startButtonHandler(wxCommandEvent& evt);
+    void newWindowCheckBoxHandler(wxCommandEvent& evt);
+    void radarPosXSliderHandler(wxCommandEvent& evt);
+    void radarPosYSliderHandler(wxCommandEvent& evt);
+    void carSpeedControllerHandler(wxCommandEvent& evt);
+
+    int i = 0;
 };
 
 
