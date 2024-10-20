@@ -3,19 +3,16 @@
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include "eventHandlers.h"
 
 class mainFrame : public wxFrame {
 public:
     mainFrame(const wxString &title);
     ~mainFrame();
+    // eventHandlers *handlers = new eventHandlers(1,1,1,1,true);
 private:
-    void startButtonHandler(wxCommandEvent& evt);
-    void newWindowCheckBoxHandler(wxCommandEvent& evt);
-    void radarPosXSliderHandler(wxCommandEvent& evt);
-    void radarPosYSliderHandler(wxCommandEvent& evt);
-    void carSpeedControllerHandler(wxCommandEvent& evt);
-
     int i = 0;
+    eventHandlers handlers;
 };
 
 

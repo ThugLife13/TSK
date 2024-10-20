@@ -1,4 +1,5 @@
-1. Add package for creating Windows' window
-2. Add package for opening and viewing graphic content
-3. Create window
-4. Open graphic content
+1. Loop adding progress
+2. Showing png in window
+3. Moving car
+4. Creating new window
+5. Simulating
