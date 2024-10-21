@@ -34,7 +34,6 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     wxStaticText* simSpeedText = new wxStaticText(mainPanel, wxID_ANY, wxT("Simulation speed (1-100)"),
                                                 wxPoint(50, 200), wxSize(100, -1));
 
-
     //showing track
     wxImage::AddHandler(new wxPNGHandler());
     wxImage::AddHandler(new wxJPEGHandler());
@@ -45,6 +44,8 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     wxStaticBitmap* radarBitmap = new wxStaticBitmap(mapBitmap, wxID_ANY, wxBitmap(wxT("../tmp/radar.png"), wxBITMAP_TYPE_PNG),
                                                      wxPoint(0, 0), wxSize(-1, -1));
 
+    wxStaticBitmap* carBitmap = new wxStaticBitmap(mapBitmap, wxID_ANY, wxBitmap(wxT("../tmp/car.png"), wxBITMAP_TYPE_PNG),
+                                                         wxPoint(10, 10), wxSize(50, 25));
 
     //radar movement
     radarPosXSlider->Bind(wxEVT_SLIDER, [radarBitmap, mapBitmap](wxCommandEvent& event) {
@@ -53,6 +54,7 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
         int newXPos = (mapWidth * xPosPercentage) / 100;
         int yPos = radarBitmap->GetPosition().y;
         radarBitmap->SetPosition(wxPoint(newXPos, yPos));
+        radarBitmap->Refresh();
     });
     radarPosYSlider->Bind(wxEVT_SLIDER, [radarBitmap, mapBitmap](wxCommandEvent& event) {
         int yPosPercentage = event.GetInt();
@@ -60,6 +62,7 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
         int newYPos = (mapHeight * yPosPercentage) / 100;
         int xPos = radarBitmap->GetPosition().x;
         radarBitmap->SetPosition(wxPoint(xPos, newYPos));
+        radarBitmap->Refresh();
     });
 
     //handlers
@@ -67,6 +70,14 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     newWindowCheckBox->Bind(wxEVT_CHECKBOX, &eventHandlers::newWindowCheckBoxHandler, &handlers);
     carSpeedControllerHandler->Bind(wxEVT_SPINCTRL, &eventHandlers::carSpeedControllerHandler, &handlers);
     simSpeedSpinController->Bind(wxEVT_SPINCTRL, &eventHandlers::simSpeedControllerHandler, &handlers);
+
+    //car
+    wxTimer* carTimer = new wxTimer(this);
+    Vehicle* vehicle = new Vehicle(carBitmap);
+
+    vehicle->followPath(carTimer, carSpeedControllerHandler);
+
+
 
     CreateStatusBar();
 }

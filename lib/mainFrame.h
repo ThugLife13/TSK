@@ -4,6 +4,8 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include "eventHandlers.h"
+#include "vehicle.h"
+
 
 class mainFrame : public wxFrame {
 public:

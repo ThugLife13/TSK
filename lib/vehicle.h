@@ -1,18 +1,25 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <vector>
+#include <wx/wx.h>
+#include <cmath>
+#include <wx/msw/spinctrl.h>
 
-
-class vehicle {
+class Vehicle {
 public:
-    int speed = 0;
-    int positionX = 0;
-    int positionY = 0;
+    Vehicle(wxStaticBitmap* carBitmap);
+    void followPath(wxTimer* carTimer, wxSpinCtrl* carSpeedControllerHandler);
 
-    vehicle();
-    ~vehicle();
+    int posX;
+    int posY;
+
+private:
+    wxStaticBitmap* carBitmap;
+    std::vector<wxPoint> carPath;
+    size_t currentPointIndex;
+
+    void loadPath();
 };
 
-
-
-#endif //VEHICLE_H
+#endif // VEHICLE_H
