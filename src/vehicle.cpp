@@ -43,3 +43,7 @@ void Vehicle::followPath(wxTimer* carTimer, wxSpinCtrl* carSpeedControllerHandle
         }
     }, carTimer->GetId());
 }
+/*
+wxStaticBitmap* carBitmap = new wxStaticBitmap(mapBitmap, wxID_ANY, wxBitmap(wxT("../tmp/car.png"), wxBITMAP_TYPE_PNG),
+                                                         wxPoint(10, 10), wxSize(50, 25));
+*/

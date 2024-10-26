@@ -6,6 +6,8 @@
 #include <cmath>
 #include <wx/msw/spinctrl.h>
 
+#include "dopplerRadar.h"
+
 class Vehicle {
 public:
     Vehicle(wxStaticBitmap* carBitmap);
@@ -13,6 +15,8 @@ public:
 
     int posX;
     int posY;
+
+    void startSim();
 
 private:
     wxStaticBitmap* carBitmap;

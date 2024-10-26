@@ -1,7 +1,6 @@
 #ifndef DOPPLERRADAR_H
 #define DOPPLERRADAR_H
 
-#include "vehicle.h"
 
 class dopplerRadar {
 public:

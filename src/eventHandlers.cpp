@@ -6,6 +6,7 @@ void eventHandlers::startButtonHandler(wxCommandEvent& evt) {
     std::cout << newWindow << std::endl;
     std::cout << carSpeed << std::endl;
     std::cout << simSpeed << std::endl;
+
 }
 
 void eventHandlers::newWindowCheckBoxHandler(wxCommandEvent& evt) {

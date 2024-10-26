@@ -4,6 +4,8 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 
+#include "vehicle.h"
+
 class eventHandlers {
 public:
     void startButtonHandler(wxCommandEvent& evt);

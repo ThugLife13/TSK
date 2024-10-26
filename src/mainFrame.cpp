@@ -13,9 +13,9 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
                                                    wxPoint(200, 250), wxSize(250, -1));
 
     //radar position controller
-    wxSlider* radarPosXSlider = new wxSlider(mainPanel, wxID_ANY, 1, 1, 100,
+    wxSlider* radarPosXSlider = new wxSlider(mainPanel, wxID_ANY, 0, 0, 100,
                                              wxPoint(200, 60), wxSize(200, -1), wxSL_VALUE_LABEL);
-    wxSlider* radarPosYSlider = new wxSlider(mainPanel, wxID_ANY, 1, 1, 100,
+    wxSlider* radarPosYSlider = new wxSlider(mainPanel, wxID_ANY, 0, 0, 100,
                                              wxPoint(200, 100), wxSize(200, -1), wxSL_VALUE_LABEL);
 
     //speed controller
@@ -44,9 +44,6 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     wxStaticBitmap* radarBitmap = new wxStaticBitmap(mapBitmap, wxID_ANY, wxBitmap(wxT("../tmp/radar.png"), wxBITMAP_TYPE_PNG),
                                                      wxPoint(0, 0), wxSize(-1, -1));
 
-    wxStaticBitmap* carBitmap = new wxStaticBitmap(mapBitmap, wxID_ANY, wxBitmap(wxT("../tmp/car.png"), wxBITMAP_TYPE_PNG),
-                                                         wxPoint(10, 10), wxSize(50, 25));
-
     //radar movement
     radarPosXSlider->Bind(wxEVT_SLIDER, [radarBitmap, mapBitmap](wxCommandEvent& event) {
         int xPosPercentage = event.GetInt();
@@ -70,14 +67,6 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     newWindowCheckBox->Bind(wxEVT_CHECKBOX, &eventHandlers::newWindowCheckBoxHandler, &handlers);
     carSpeedControllerHandler->Bind(wxEVT_SPINCTRL, &eventHandlers::carSpeedControllerHandler, &handlers);
     simSpeedSpinController->Bind(wxEVT_SPINCTRL, &eventHandlers::simSpeedControllerHandler, &handlers);
-
-    //car
-    wxTimer* carTimer = new wxTimer(this);
-    Vehicle* vehicle = new Vehicle(carBitmap);
-
-    vehicle->followPath(carTimer, carSpeedControllerHandler);
-
-
 
     CreateStatusBar();
 }
