@@ -5,8 +5,10 @@ void eventHandlers::startButtonHandler(wxCommandEvent& evt) {
     std::cout << "Start" << std::endl;
     std::cout << newWindow << std::endl;
     std::cout << carSpeed << std::endl;
-    std::cout << simSpeed << std::endl;
 
+    Vehicle *vehicle = new Vehicle(0, 0, carSpeed);
+
+    vehicle->startSim();
 }
 
 void eventHandlers::newWindowCheckBoxHandler(wxCommandEvent& evt) {
@@ -16,10 +18,5 @@ void eventHandlers::newWindowCheckBoxHandler(wxCommandEvent& evt) {
 
 void eventHandlers::carSpeedControllerHandler(wxCommandEvent& evt) {
     carSpeed = evt.GetInt();
-    std::cout << evt.GetInt() << std::endl;
-}
-
-void eventHandlers::simSpeedControllerHandler(wxCommandEvent &evt) {
-    simSpeed = evt.GetInt();
     std::cout << evt.GetInt() << std::endl;
 }

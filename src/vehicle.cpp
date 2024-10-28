@@ -1,9 +1,6 @@
 #include "../lib/vehicle.h"
 
-Vehicle::Vehicle(wxStaticBitmap* carBitmap) : carBitmap(carBitmap), currentPointIndex(0) {
-    loadPath();
-}
-
+//loading carPath
 void Vehicle::loadPath() {
     carPath.push_back(wxPoint(150, 100));
     carPath.push_back(wxPoint(200, 120));
@@ -14,36 +11,37 @@ void Vehicle::loadPath() {
     carPath.push_back(wxPoint(450, 220));
 }
 
-void Vehicle::followPath(wxTimer* carTimer, wxSpinCtrl* carSpeedControllerHandler) {
-    carTimer->Start(100);
+Vehicle::~Vehicle() {
 
-    carTimer->Bind(wxEVT_TIMER, [this, carSpeedControllerHandler](wxTimerEvent&) {
-        if (currentPointIndex >= carPath.size()) {
-            currentPointIndex = 0;
-        }
-
-        int speed = carSpeedControllerHandler->GetValue();
-
-        wxPoint currentPos = carBitmap->GetPosition();
-        posX = currentPos.x;
-        posY = currentPos.y;
-        wxPoint targetPos = carPath[currentPointIndex];
-
-        int deltaX = targetPos.x - currentPos.x;
-        int deltaY = targetPos.y - currentPos.y;
-
-        if (abs(deltaX) <= speed && abs(deltaY) <= speed) {
-            carBitmap->SetPosition(targetPos);
-            currentPointIndex++;
-        } else {
-            double angle = atan2(deltaY, deltaX);
-            int newX = currentPos.x + static_cast<int>(cos(angle) * speed);
-            int newY = currentPos.y + static_cast<int>(sin(angle) * speed);
-            carBitmap->SetPosition(wxPoint(newX, newY));
-        }
-    }, carTimer->GetId());
 }
-/*
-wxStaticBitmap* carBitmap = new wxStaticBitmap(mapBitmap, wxID_ANY, wxBitmap(wxT("../tmp/car.png"), wxBITMAP_TYPE_PNG),
-                                                         wxPoint(10, 10), wxSize(50, 25));
-*/
+
+Vehicle::Vehicle(int radarPosX, int radarPosY, int carSpeed) : radarPosX(radarPosX), radarPosY(radarPosY), carSpeed(carSpeed) {
+
+}
+
+void Vehicle::startSim() {
+    loadPath();
+    simulationInProgress = simulationLoop();
+
+}
+
+bool Vehicle::simulationLoop() {
+    for(int i = 0; i<carPath.size(); i++){
+        if(i+1 < carPath.size()){
+            i = 0;
+        }
+        //create line to next point (current car pos, next pos) (return vector of points)
+        for(1; 1; 1){ //for all points in line
+            if(!true){ //start of sim
+                //dopplerRadar startSim (start of sim = true)
+            }
+            //dopplerRadar calculateSpeed
+            //move vehicle
+            //refresh frame so the car will move on screen
+            //wait (movement on screen should be continuous and slow/visible)
+        }
+        simulationInProgress = true;
+    }
+    simulationInProgress = false;
+    return simulationInProgress;
+}

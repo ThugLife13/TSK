@@ -10,20 +10,28 @@
 
 class Vehicle {
 public:
-    Vehicle(wxStaticBitmap* carBitmap);
-    void followPath(wxTimer* carTimer, wxSpinCtrl* carSpeedControllerHandler);
-
     int posX;
     int posY;
 
+    int radarPosX;
+    int radarPosY;
+
+    int carSpeed;
+
     void startSim();
 
+    Vehicle(int radarPosX, int radarPosY, int carSpeed);
+
+    virtual ~Vehicle();
+
+    bool simulationInProgress;
 private:
-    wxStaticBitmap* carBitmap;
     std::vector<wxPoint> carPath;
-    size_t currentPointIndex;
+    int currentPointIndex;
 
     void loadPath();
+
+    bool simulationLoop();
 };
 
 #endif // VEHICLE_H

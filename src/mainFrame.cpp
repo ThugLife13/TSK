@@ -21,9 +21,6 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     //speed controller
     wxSpinCtrl* carSpeedControllerHandler = new wxSpinCtrl(mainPanel, wxID_ANY, wxT("1"),
                                                      wxPoint(200, 160), wxSize(200, -1));
-    wxSpinCtrl* simSpeedSpinController = new wxSpinCtrl(mainPanel, wxID_ANY, wxT("1"),
-                                                         wxPoint(200, 200), wxSize(200, -1));
-
     //static text
     wxStaticText* radarPosXText = new wxStaticText(mainPanel, wxID_ANY, wxT("Radar Position X "),
                                                 wxPoint(50, 80), wxSize(100, -1));
@@ -31,8 +28,6 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
                                                 wxPoint(50, 120), wxSize(100, -1));
     wxStaticText* carSpeedText = new wxStaticText(mainPanel, wxID_ANY, wxT("Car true speed (1-100) [km/h]"),
                                                 wxPoint(50, 160), wxSize(100, -1));
-    wxStaticText* simSpeedText = new wxStaticText(mainPanel, wxID_ANY, wxT("Simulation speed (1-100)"),
-                                                wxPoint(50, 200), wxSize(100, -1));
 
     //showing track
     wxImage::AddHandler(new wxPNGHandler());
@@ -66,7 +61,6 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
     startButton->Bind(wxEVT_BUTTON, &eventHandlers::startButtonHandler, &handlers);
     newWindowCheckBox->Bind(wxEVT_CHECKBOX, &eventHandlers::newWindowCheckBoxHandler, &handlers);
     carSpeedControllerHandler->Bind(wxEVT_SPINCTRL, &eventHandlers::carSpeedControllerHandler, &handlers);
-    simSpeedSpinController->Bind(wxEVT_SPINCTRL, &eventHandlers::simSpeedControllerHandler, &handlers);
 
     CreateStatusBar();
 }

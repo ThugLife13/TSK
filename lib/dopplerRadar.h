@@ -8,7 +8,16 @@ public:
     int positionY = 0;
 
     dopplerRadar();
+
     ~dopplerRadar();
+
+    //startSim (posX, posY)
+
+    //calculateSpeed
+
+    //check for highest and lowest speed
+
+    //add speed for avg speed calculation, and increase counter
 
 };
 
