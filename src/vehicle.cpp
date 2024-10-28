@@ -38,7 +38,7 @@ bool Vehicle::simulationLoop() {
             //dopplerRadar calculateSpeed
             //move vehicle
             //refresh frame so the car will move on screen
-            //wait (movement on screen should be continuous and slow/visible)
+            //wait (movement on screen should be continuous and slow/visible (make pixel = 1m so the speed of the vehicle could be input as km/h))
         }
         simulationInProgress = true;
     }

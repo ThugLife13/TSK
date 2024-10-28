@@ -11,9 +11,9 @@ public:
 
     ~dopplerRadar();
 
-    //startSim (posX, posY)
+    //startSim (before the beginning of program)
 
-    //calculateSpeed
+    //calculateSpeed (based on every new pos of car)
 
     //check for highest and lowest speed
 
