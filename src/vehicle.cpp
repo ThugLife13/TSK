@@ -11,6 +11,21 @@ void Vehicle::loadPath() {
     carPath.push_back(wxPoint(450, 220));
 }
 
+std::vector<wxPoint> Vehicle::createLine(wxPoint start, wxPoint end) {
+    std::vector<wxPoint> linePoints;
+    int steps = 100;
+
+    double deltaX = (end.x - start.x) / static_cast<double>(steps);
+    double deltaY = (end.y - start.y) / static_cast<double>(steps);
+
+    for (int i = 0; i <= steps; ++i) {
+        int x = static_cast<int>(start.x + i * deltaX);
+        int y = static_cast<int>(start.y + i * deltaY);
+        linePoints.push_back(wxPoint(x, y));
+    }
+    return linePoints;
+}
+
 Vehicle::~Vehicle() {
 
 }
@@ -22,26 +37,41 @@ Vehicle::Vehicle(int radarPosX, int radarPosY, int carSpeed) : radarPosX(radarPo
 void Vehicle::startSim() {
     loadPath();
     simulationInProgress = simulationLoop();
-
 }
 
 bool Vehicle::simulationLoop() {
-    for(int i = 0; i<carPath.size(); i++){
-        if(i+1 < carPath.size()){
-            i = 0;
-        }
-        //create line to next point (current car pos, next pos) (return vector of points)
-        for(1; 1; 1){ //for all points in line
-            if(!true){ //start of sim
-                //dopplerRadar startSim (start of sim = true)
+    dopplerRadar* DP = new dopplerRadar(radarPosX, radarPosY);
+    for (int i = 0; i < carPath.size() - 1; ++i) {
+        wxPoint currentPos = carPath[i];
+        wxPoint nextPos = carPath[i + 1];
+
+        // Create line points between the current position and the next position
+        std::vector<wxPoint> linePoints = createLine(currentPos, nextPos);
+
+        for (const auto& point : linePoints) {
+            // Simulate vehicle movement to each point on the line
+            moveVehicle(point);
+
+            if (!simulationInProgress) {
+                // Start the radar simulation if it's not already started
+                DP->startSim(wxPoint(radarPosX, radarPosY));
+                simulationInProgress = true;
             }
-            //dopplerRadar calculateSpeed
-            //move vehicle
-            //refresh frame so the car will move on screen
-            //wait (movement on screen should be continuous and slow/visible (make pixel = 1m so the speed of the vehicle could be input as km/h))
+
+            // Calculate vehicle speed at each point (this could be expanded with more realistic calculations)
+            DP->calculateSpeed(wxPoint(posX, posY));
         }
-        simulationInProgress = true;
     }
+    DP->calculateAverageSpeed();
+
+    DP->lowestSpeed;
+    DP->highestSpeed;
+
     simulationInProgress = false;
     return simulationInProgress;
+}
+
+void Vehicle::moveVehicle(const wxPoint& newPosition) {
+    posX = newPosition.x;
+    posY = newPosition.y;
 }

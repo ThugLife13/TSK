@@ -25,6 +25,10 @@ public:
     virtual ~Vehicle();
 
     bool simulationInProgress;
+
+    std::vector<wxPoint> createLine(wxPoint start, wxPoint end);
+
+    void moveVehicle(const wxPoint& newPosition);
 private:
     std::vector<wxPoint> carPath;
     int currentPointIndex;

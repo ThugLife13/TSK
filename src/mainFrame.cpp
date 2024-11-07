@@ -1,6 +1,6 @@
 #include "../lib/mainFrame.h"
 
-mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, wxPoint(10,10), wxSize(1920, 1080)), handlers(1, 1, false) {
+mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, wxPoint(10,10), wxSize(1920, 1080)), handlers(1) {
     wxPanel *mainPanel = new wxPanel(this, wxID_ANY);
 
     //MAIN WINDOW
@@ -9,8 +9,8 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
                                          wxPoint(200, 350), wxSize(200, -1));
 
     //track in new window checkBox
-    wxCheckBox* newWindowCheckBox = new wxCheckBox(mainPanel, wxID_ANY, wxT("Track sim in new window"),
-                                                   wxPoint(200, 250), wxSize(250, -1));
+    // wxCheckBox* newWindowCheckBox = new wxCheckBox(mainPanel, wxID_ANY, wxT("Track sim in new window"),
+    //                                                wxPoint(200, 250), wxSize(250, -1));
 
     //radar position controller
     wxSlider* radarPosXSlider = new wxSlider(mainPanel, wxID_ANY, 0, 0, 100,
@@ -59,7 +59,7 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
 
     //handlers
     startButton->Bind(wxEVT_BUTTON, &eventHandlers::startButtonHandler, &handlers);
-    newWindowCheckBox->Bind(wxEVT_CHECKBOX, &eventHandlers::newWindowCheckBoxHandler, &handlers);
+    //newWindowCheckBox->Bind(wxEVT_CHECKBOX, &eventHandlers::newWindowCheckBoxHandler, &handlers);
     carSpeedControllerHandler->Bind(wxEVT_SPINCTRL, &eventHandlers::carSpeedControllerHandler, &handlers);
 
     CreateStatusBar();
