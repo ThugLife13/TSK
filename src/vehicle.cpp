@@ -1,77 +1,94 @@
 #include "../lib/vehicle.h"
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <iostream>
 
-//loading carPath
-void Vehicle::loadPath() {
-    carPath.push_back(wxPoint(150, 100));
-    carPath.push_back(wxPoint(200, 120));
-    carPath.push_back(wxPoint(250, 140));
-    carPath.push_back(wxPoint(300, 160));
-    carPath.push_back(wxPoint(350, 180));
-    carPath.push_back(wxPoint(400, 200));
-    carPath.push_back(wxPoint(450, 220));
+Vehicle::Vehicle() : posX(0), posY(0), carSpeed(0) {}
+
+void Vehicle::startSim(double radarPosX, double radarPosY, double carSpeed) {
+    this->carSpeed = carSpeed;
+    radar = DopplerRadar(radarPosX, radarPosY);
+    move();
 }
 
-std::vector<wxPoint> Vehicle::createLine(wxPoint start, wxPoint end) {
-    std::vector<wxPoint> linePoints;
-    int steps = 100;
+void Vehicle::move() {
+    // Hardcoded array of positions (example positions) TODO
+    const int numPositions = 2;
+    double positionsX[numPositions] = {0.0, 1.0};
+    double positionsY[numPositions] = {0.0, 0.0};
 
-    double deltaX = (end.x - start.x) / static_cast<double>(steps);
-    double deltaY = (end.y - start.y) / static_cast<double>(steps);
+    // Convert speed from km/h to m/s
+    double speed_m_per_s = (carSpeed * 1000) / 3600;
 
-    for (int i = 0; i <= steps; ++i) {
-        int x = static_cast<int>(start.x + i * deltaX);
-        int y = static_cast<int>(start.y + i * deltaY);
-        linePoints.push_back(wxPoint(x, y));
+    // Calculate total distance between all points
+    double totalDistance = 0.0;
+    for (int i = 0; i < numPositions - 1; ++i) {
+        double deltaX = positionsX[i + 1] - positionsX[i];
+        double deltaY = positionsY[i + 1] - positionsY[i];
+        totalDistance += sqrt(deltaX * deltaX + deltaY * deltaY);
     }
-    return linePoints;
-}
 
-Vehicle::~Vehicle() {
+    // Calculate total time to travel the total distance
+    double totalTime = totalDistance / speed_m_per_s;
 
-}
+    // Time between updates
+    double timeStep = radar.getTimeStep();
 
-Vehicle::Vehicle(int radarPosX, int radarPosY, int carSpeed) : radarPosX(radarPosX), radarPosY(radarPosY), carSpeed(carSpeed) {
+    // Total number of steps
+    int totalSteps = static_cast<int>(totalTime / timeStep);
 
-}
+    // Initialize starting position
+    posX = positionsX[0];
+    posY = positionsY[0];
 
-void Vehicle::startSim() {
-    loadPath();
-    simulationInProgress = simulationLoop();
-}
+    // Index of the next waypoint
+    int nextPointIndex = 1;
 
-bool Vehicle::simulationLoop() {
-    dopplerRadar* DP = new dopplerRadar(radarPosX, radarPosY);
-    for (int i = 0; i < carPath.size() - 1; ++i) {
-        wxPoint currentPos = carPath[i];
-        wxPoint nextPos = carPath[i + 1];
+    // Remaining distance to the next point
+    double remainingDistance = 0.0;
 
-        // Create line points between the current position and the next position
-        std::vector<wxPoint> linePoints = createLine(currentPos, nextPos);
+    // Direction vector components
+    double dirX = 0.0;
+    double dirY = 0.0;
 
-        for (const auto& point : linePoints) {
-            // Simulate vehicle movement to each point on the line
-            moveVehicle(point);
+    for (int step = 0; step <= totalSteps; ++step) {
+        // If we have reached the next point, update to the next segment
+        if (remainingDistance <= 0.0 && nextPointIndex < numPositions) {
+            double deltaX = positionsX[nextPointIndex] - posX;
+            double deltaY = positionsY[nextPointIndex] - posY;
+            double distanceToNextPoint = sqrt(deltaX * deltaX + deltaY * deltaY);
 
-            if (!simulationInProgress) {
-                // Start the radar simulation if it's not already started
-                DP->startSim(wxPoint(radarPosX, radarPosY));
-                simulationInProgress = true;
-            }
+            // Calculate direction vector components (normalized)
+            dirX = deltaX / distanceToNextPoint;
+            dirY = deltaY / distanceToNextPoint;
 
-            // Calculate vehicle speed at each point (this could be expanded with more realistic calculations)
-            DP->calculateSpeed(wxPoint(posX, posY));
+            remainingDistance = distanceToNextPoint;
+            nextPointIndex++;
         }
+
+        // Move vehicle along the direction vector
+        double distanceToTravel = speed_m_per_s * timeStep;
+
+        // If the distance to travel is more than the remaining distance to the next point
+        if (distanceToTravel > remainingDistance) {
+            distanceToTravel = remainingDistance;
+        }
+
+        posX += dirX * distanceToTravel;
+        posY += dirY * distanceToTravel;
+        remainingDistance -= distanceToTravel;
+
+        // Update the radar with the current position
+        radar.detect(posX, posY);
     }
-    DP->calculateAverageSpeed();
 
-    DP->lowestSpeed;
-    DP->highestSpeed;
-
-    simulationInProgress = false;
-    return simulationInProgress;
-}
-
-void Vehicle::moveVehicle(const wxPoint& newPosition) {
-    posX = newPosition.x;
-    posY = newPosition.y;
+    // Output results
+    std::cout << "Start\n";
+    std::cout << "V: " << carSpeed << " km/h\n";
+    std::cout << "posX: " << radar.radar_pos_x() << "\n";
+    std::cout << "posY: " << radar.radar_pos_y()  << "\n";
+    std::cout << "Minimum speed detected: " << radar.getMinSpeed() << " m/s\n";
+    std::cout << "Maximum speed detected: " << radar.getMaxSpeed() << " m/s\n";
+    std::cout << "Average speed detected: " << radar.getAverageSpeed() << " m/s\n\n";
 }

@@ -4,12 +4,14 @@ void eventHandlers::startButtonHandler(wxCommandEvent& evt) {
     //tutaj startujemy symulację
     std::cout << "Start" << std::endl;
     std::cout << carSpeed << std::endl;
+    std::cout << radarPositionX << std::endl;
+    std::cout << radarPositionY << std::endl;
 
-    //std::cout <<
+    //teraz wrzucić metodę która poprowadzi samochód po trasie jednocześnie sprawdzając jego prędkość radarem dopplera
+    Vehicle* vehicle = new Vehicle();
+    vehicle->startSim(radarPositionX, radarPositionY, carSpeed);
 
-    Vehicle *vehicle = new Vehicle(0, 0, carSpeed);
-
-    vehicle->startSim();
+    delete vehicle;
 }
 
 // void eventHandlers::newWindowCheckBoxHandler(wxCommandEvent& evt) {
@@ -21,7 +23,7 @@ void eventHandlers::startButtonHandler(wxCommandEvent& evt) {
 
 void eventHandlers::carSpeedControllerHandler(wxCommandEvent& evt) {
     carSpeed = evt.GetInt();
-    std::cout << evt.GetInt() << std::endl;
+    //std::cout << evt.GetInt() << std::endl;
 }
 
 

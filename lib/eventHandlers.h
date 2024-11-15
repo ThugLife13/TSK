@@ -9,9 +9,9 @@
 class eventHandlers {
 public:
     void startButtonHandler(wxCommandEvent& evt);
-    //void newWindowCheckBoxHandler(wxCommandEvent& evt);
     void carSpeedControllerHandler(wxCommandEvent& evt);
 
+    //void newWindowCheckBoxHandler(wxCommandEvent& evt);
     //void radarPosXControllerHandler(wxCommandEvent& evt);
     //void radarPosYControllerHandler(wxCommandEvent& evt);
 

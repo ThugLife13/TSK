@@ -1,41 +1,18 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include <vector>
-#include <wx/wx.h>
-#include <cmath>
-#include <wx/msw/spinctrl.h>
-
 #include "dopplerRadar.h"
 
 class Vehicle {
 public:
-    int posX;
-    int posY;
-
-    int radarPosX;
-    int radarPosY;
-
-    int carSpeed;
-
-    void startSim();
-
-    Vehicle(int radarPosX, int radarPosY, int carSpeed);
-
-    virtual ~Vehicle();
-
-    bool simulationInProgress;
-
-    std::vector<wxPoint> createLine(wxPoint start, wxPoint end);
-
-    void moveVehicle(const wxPoint& newPosition);
+    Vehicle();
+    void startSim(double radarPosX, double radarPosY, double carSpeed);
 private:
-    std::vector<wxPoint> carPath;
-    int currentPointIndex;
-
-    void loadPath();
-
-    bool simulationLoop();
+    DopplerRadar radar;
+    double carSpeed; // in km/h
+    double posX, posY;
+    void move();
 };
 
 #endif // VEHICLE_H
+
