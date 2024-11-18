@@ -20,7 +20,7 @@ mainFrame::mainFrame(const wxString &title): wxFrame(nullptr, wxID_ANY, title, w
 
     //speed controller
     wxSpinCtrl* carSpeedControllerHandler = new wxSpinCtrl(mainPanel, wxID_ANY, wxT("1"),
-                                                     wxPoint(300, 160), wxSize(200, -1));
+                                                     wxPoint(300, 160), wxSize(200, -1), wxSP_WRAP, 1, 320);
     //static text
     wxStaticText* radarPosXText = new wxStaticText(mainPanel, wxID_ANY, wxT("Radar Position X (0-100)   [% width]"),
                                                 wxPoint(50, 80), wxSize(200, -1));
